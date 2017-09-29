@@ -1,14 +1,5 @@
 const {ScreepsAPI} = require('screeps-api');
 
-const api = new ScreepsAPI({
-  email: 'TooAngel',
-  password: 'tooangel',
-  protocol: 'http',
-  hostname: 'localhost',
-  port: 21025,
-  path: '/',
-});
-
 /**
  * main method
  *
@@ -16,6 +7,15 @@ const api = new ScreepsAPI({
  * are available
  */
 async function main() {
+  const api = new ScreepsAPI({
+    email: 'TooAngel',
+    password: 'tooangel',
+    protocol: 'http',
+    hostname: 'localhost',
+    port: 21025,
+    path: '/',
+  });
+
   await api.auth();
 
   api.socket.connect();
@@ -23,6 +23,9 @@ async function main() {
   api.socket.on('auth', (event)=>{});
 
   api.socket.subscribe('console', (event)=>{
+    if (!event.data || !event.data.messages) {
+      return;
+    }
     if (event.data.messages.results.length > 0) {
       console.log('result', event.data.messages.results);
     }
@@ -35,4 +38,4 @@ async function main() {
   });
 }
 
-main();
+module.exports = main;
