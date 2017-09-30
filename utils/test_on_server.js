@@ -24,7 +24,7 @@ async function followLog() {
   });
 
   let response = await api.auth();
-  console.log('auth response: ' + response);
+  console.log('auth response: ' + JSON.stringify(response));
 
   api.socket.connect();
   api.socket.on('connected', ()=>{});
