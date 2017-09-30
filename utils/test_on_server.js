@@ -1,10 +1,45 @@
 const net = require('net');
 const q = require('q');
-const checkPrivateServer = require('./check_private_server');
 const lib = require('@screeps/launcher/lib/index');
+const {ScreepsAPI} = require('screeps-api');
 
 function sleep(seconds) {
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+}
+
+/**
+ * followLog method
+ *
+ * Connects to the api and reads and prints the console log, if messages
+ * are available
+ */
+async function followLog() {
+  const api = new ScreepsAPI({
+    email: 'TooAngel',
+    password: 'tooangel',
+    protocol: 'http',
+    hostname: 'localhost',
+    port: 21025,
+    path: '/',
+  });
+
+  await api.auth();
+
+  api.socket.connect();
+  api.socket.on('connected', ()=>{});
+  api.socket.on('auth', (event)=>{});
+
+  api.socket.subscribe('console', (event)=>{
+    if (event.data.messages.results.length > 0) {
+      console.log('result', event.data.messages.results);
+    }
+
+    if (event.data.messages.log.length > 0) {
+      for (let logIndex = 0; logIndex < event.data.messages.log.length; logIndex++) {
+        console.log(event.data.messages.log[logIndex]);
+      }
+    }
+  });
 }
 
 async function loop() {
@@ -30,7 +65,7 @@ async function loop() {
 
     if (line.startsWith('{ modified: 1 }')) {
       console.log('Listen to the log');
-      checkPrivateServer();
+      followLog();
       socket.write(`system.resumeSimulation()\r\n`);
       return;
     }
@@ -85,9 +120,11 @@ async function main() {
   try {
     await loop();
     console.log('Yeah');
+    process.exit(0);
   } catch (e) {
     console.log('!!! No progress on the controller !!!');
-    throw e;
+    // throw e;
+    process.exit(1);
   }
 }
 main();
