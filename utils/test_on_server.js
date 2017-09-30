@@ -23,13 +23,18 @@ async function followLog() {
     path: '/',
   });
 
-  await api.auth();
+  let response = await api.auth();
+  console.log('auth response: ' + response);
 
   api.socket.connect();
   api.socket.on('connected', ()=>{});
   api.socket.on('auth', (event)=>{});
 
   api.socket.subscribe('console', (event)=>{
+    if (!event.data || !event.data.messages) {
+      return;
+    }
+
     if (event.data.messages.results.length > 0) {
       console.log('result', event.data.messages.results);
     }
