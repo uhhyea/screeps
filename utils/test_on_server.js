@@ -3,6 +3,9 @@ const q = require('q');
 const lib = require('@screeps/launcher/lib/index');
 const {ScreepsAPI} = require('screeps-api');
 
+const cliPort = 4712;
+const port = 4711;
+
 function sleep(seconds) {
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 }
@@ -15,7 +18,9 @@ async function startServer() {
       modfile: 'test-server/mods.json',
       assetdir: 'test-server/assets',
       cli_host: '127.0.0.1',
+      cli_port: cliPort,
       host: '127.0.0.1',
+      port: port
       // password: 'tooangel',
     };
 
@@ -35,7 +40,7 @@ async function followLog() {
     password: 'tooangel',
     protocol: 'http',
     hostname: '127.0.0.1',
-    port: 21025,
+    port: port,
     path: '/',
   });
 
@@ -66,7 +71,7 @@ async function followLog() {
 async function loop() {
   const defer = q.defer();
 
-  const socket = net.connect(21026, '127.0.0.1');
+  const socket = net.connect(cliPort, '127.0.0.1');
 
   socket.on('data', async (data) => {
     data = data.toString('utf8');
