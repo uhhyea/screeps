@@ -3,10 +3,8 @@ const q = require('q');
 const lib = require('@screeps/launcher/lib/index');
 const {ScreepsAPI} = require('screeps-api');
 
-const cliPort = 4712;
-const port = 4711;
-
-console.log('sp' + process.env.SERVER_PASSWORD);
+const cliPort = 21026;
+const port = 21025;
 
 function sleep(seconds) {
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
@@ -22,8 +20,7 @@ async function startServer() {
       cli_host: '127.0.0.1',
       cli_port: cliPort,
       host: '127.0.0.1',
-      port: port,
-      password: undefined,
+      port: port
     };
 
     lib.start(opts, process.stdout);
@@ -129,6 +126,7 @@ async function loop() {
 
 async function main() {
   startServer();
+
   await sleep(5);
   try {
     await loop();
