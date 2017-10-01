@@ -7,6 +7,22 @@ function sleep(seconds) {
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 }
 
+async function startServer() {
+  return new Promise(() => {
+    const opts = {
+      db: 'test-server/db.json',
+      logdir: 'test-server/logs',
+      modfile: 'test-server/mods.json',
+      assetdir: 'test-server/assets',
+      cli_host: 'localhost',
+      host: '127.0.0.1',
+      // password: 'tooangel',
+    };
+
+    lib.start(opts, process.stdout);
+  });
+}
+
 /**
  * followLog method
  *
@@ -101,22 +117,6 @@ async function loop() {
   });
 
   return defer.promise;
-}
-
-async function startServer() {
-  return new Promise(() => {
-    const opts = {
-      db: 'test-server/db.json',
-      logdir: 'test-server/logs',
-      modfile: 'test-server/mods.json',
-      assetdir: 'test-server/assets',
-      cli_host: 'localhost',
-      host: '127.0.0.1',
-      password: 'tooangel',
-    };
-
-    lib.start(opts, process.stdout);
-  });
 }
 
 async function main() {
