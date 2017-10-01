@@ -29,8 +29,6 @@ jobs:
         command: node utils/grafana.js
   test:
     docker: circleci/node:latest
-    branches:
-      only: master
     steps:
       - checkout
       - run:
