@@ -23,7 +23,7 @@ async function startServer() {
       cli_port: cliPort,
       host: '127.0.0.1',
       port: port,
-      password: '',
+      password: undefined,
     };
 
     lib.start(opts, process.stdout);
