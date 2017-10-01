@@ -6,6 +6,8 @@ const {ScreepsAPI} = require('screeps-api');
 const cliPort = 21026;
 const port = 21025;
 
+const duration = 300;
+
 function sleep(seconds) {
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 }
@@ -97,7 +99,7 @@ async function loop() {
 
     if (line.startsWith(`'OK'`)) {
       console.log('Run the simulation');
-      await sleep(2);
+      await sleep(duration);
       socket.write(`storage.db['rooms.objects'].find({room: 'W1N7', type: 'controller'})\r\n`);
       return;
     }
