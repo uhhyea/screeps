@@ -6,6 +6,8 @@ const {ScreepsAPI} = require('screeps-api');
 const cliPort = 4712;
 const port = 4711;
 
+console.log('sp' + process.env.SERVER_PASSWORD);
+
 function sleep(seconds) {
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 }
@@ -20,8 +22,8 @@ async function startServer() {
       cli_host: '127.0.0.1',
       cli_port: cliPort,
       host: '127.0.0.1',
-      port: port
-      // password: 'tooangel',
+      port: port,
+      password: '',
     };
 
     lib.start(opts, process.stdout);
@@ -98,7 +100,7 @@ async function loop() {
 
     if (line.startsWith(`'OK'`)) {
       console.log('Run the simulation');
-      await sleep(300);
+      await sleep(2);
       socket.write(`storage.db['rooms.objects'].find({room: 'W1N7', type: 'controller'})\r\n`);
       return;
     }
@@ -106,6 +108,7 @@ async function loop() {
     if (line.indexOf('type: \'controller\',') > -1) {
       const progressPos = line.indexOf('progress: ');
       const progress = line.substring(progressPos + 10, progressPos+11);
+      console.log(data);
       if (progress === '0') {
         defer.reject('No progress');
       }
