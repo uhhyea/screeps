@@ -14,7 +14,7 @@ async function startServer() {
       logdir: 'test-server/logs',
       modfile: 'test-server/mods.json',
       assetdir: 'test-server/assets',
-      cli_host: 'localhost',
+      cli_host: '127.0.0.1',
       host: '127.0.0.1',
       // password: 'tooangel',
     };
@@ -34,7 +34,7 @@ async function followLog() {
     email: 'TooAngel',
     password: 'tooangel',
     protocol: 'http',
-    hostname: 'localhost',
+    hostname: '127.0.0.1',
     port: 21025,
     path: '/',
   });
@@ -66,7 +66,7 @@ async function followLog() {
 async function loop() {
   const defer = q.defer();
 
-  const socket = net.connect(21026, 'localhost');
+  const socket = net.connect(21026, '127.0.0.1');
 
   socket.on('data', async (data) => {
     data = data.toString('utf8');
